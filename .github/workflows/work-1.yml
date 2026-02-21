@@ -7,18 +7,14 @@ jobs:
   hello1:
     runs-on: ubuntu-latest
     steps:
-      - name: sayHi
-        run: echo "Hi"
-      - name: Wait for 10 seconds
-        run: sleep 10  # 10초 대기
-      - name: sayMyName
-        run: echo "${{ github.actor }}"
       - uses: actions/checkout@v6
-      - uses: mathieudutour/github-tag-action@v6.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create Tag
         id: create_tag
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Release
+        id: create_release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.create_tag.outputs.new_tag }}
