@@ -17,3 +17,12 @@ jobs:
       - uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create Tag
+        id: create_tag
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.create_tag.outputs.new_tag }}
+          name: Release ${{ steps.create_tag.outputs.new_tag }}
+          body: ${{ steps.create_tag.outputs.changelog }}
+          draft: false
+          prerelease: false
